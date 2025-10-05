@@ -4,7 +4,7 @@ This project was generated using [Angular CLI](https://github.com/angular/angula
 
 this clone repo 
 ```bash
-git clone url repo
+git clone https://github.com/Mo7ammad-safwat/InterviewTask.git
 ```
 
 this install npm 

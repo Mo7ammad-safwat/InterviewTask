@@ -128,7 +128,8 @@
 
     <!-- الأزرار -->
     <div class="flex justify-between w-[524px]">
-      <button (click)="onWithdraw()"
+      <button
+        (click)="showDialog()"
         class="flex items-center justify-center gap-2 w-[256px] h-[40px] rounded-[6px] bg-[#F7F7F7] text-[#0F0F33] font-medium"
       >
         <svg
@@ -156,6 +157,178 @@
           </defs>
         </svg>
       </button>
+      <p-dialog
+        header="Recharge Your Wallet"
+        [modal]="true"
+        [(visible)]="visible"
+        [style]="{ width: '40rem' }"
+      >
+ <div class="bg-gradient-to-r from-[#0f2027] via-[#203a43] to-[#2c5364] text-white rounded-xl p-6 flex flex-col gap-3 shadow-md">
+    <p class="text-sm opacity-80">Available Balance</p>
+    <div class="flex items-center gap-3">
+      <img src="https://flagcdn.com/w20/us.png" alt="flag" class="w-5 h-5 rounded-sm" />
+      <span class="text-3xl font-bold">$ 2,834.75</span>
+    </div>
+  </div>
+
+  <!-- Choose Payment Method -->
+  <div class="flex flex-col gap-4">
+    <p class="text-gray-700 font-medium">Choose Payment Method</p>
+
+    <div class="flex flex-col gap-3">
+      <!-- InstaPay -->
+      <label
+        class="flex items-center justify-between border rounded-xl p-4 cursor-pointer"
+        [ngClass]="{
+          'border-blue-500 bg-blue-50': selectedMethod === 'instapay',
+          'border-gray-300 hover:border-blue-500': selectedMethod !== 'instapay'
+        }"
+      >
+        <div class="flex items-center gap-3">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/6/6b/Instapay_logo.png"
+            alt="instapay"
+            class="w-10 h-10 object-contain"
+          />
+          <span class="font-medium text-gray-800">InstaPay</span>
+        </div>
+        <input
+          type="radio"
+          name="payment"
+          class="w-5 h-5 accent-blue-600"
+          [checked]="selectedMethod === 'instapay'"
+          (change)="selectMethod('instapay')"
+        />
+      </label>
+
+      <!-- Debit Card -->
+      <label
+        class="flex items-center justify-between border rounded-xl p-4 cursor-pointer"
+        [ngClass]="{
+          'border-blue-500 bg-blue-50': selectedMethod === 'card',
+          'border-gray-300 hover:border-blue-500': selectedMethod !== 'card'
+        }"
+      >
+        <div class="flex items-center gap-3">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg"
+            alt="card"
+            class="w-10 h-10 object-contain"
+          />
+          <span class="font-medium text-gray-800">Debit Card</span>
+        </div>
+        <input
+          type="radio"
+          name="payment"
+          class="w-5 h-5 accent-blue-600"
+          [checked]="selectedMethod === 'card'"
+          (change)="selectMethod('card')"
+        />
+      </label>
+    </div>
+  </div>
+
+  <!-- Recharge Amount -->
+  <div class="flex flex-col gap-2">
+    <label class="text-gray-700 font-medium">Recharge Amount</label>
+    <div class="relative">
+      <input
+        type="number"
+        placeholder="EGP 0.00"
+        class="w-full border border-gray-300 rounded-xl p-3 pr-16 text-gray-800 focus:ring-2 focus:ring-blue-500 outline-none"
+      />
+      <span class="absolute right-4 top-3 text-gray-500 font-medium">EGP</span>
+    </div>
+  </div>
+
+  <!-- Bank Information -->
+  <div class="flex flex-col gap-2">
+    <p class="text-gray-700 font-medium">Bank Information</p>
+    <p class="text-sm text-gray-500">
+      Please transfer the required amount to recharge your wallet using InstaPay.
+    </p>
+
+    <div class="bg-gray-50 rounded-xl border border-gray-200 p-4 flex flex-col gap-2 text-sm">
+      <div class="flex justify-between">
+        <span class="font-medium text-gray-700">Bank Name</span>
+        <span class="text-gray-700">CIB – Commercial International Bank</span>
+      </div>
+      <div class="flex justify-between">
+        <span class="font-medium text-gray-700">Account Number</span>
+        <span class="text-gray-700">100063353207</span>
+      </div>
+      <div class="flex justify-between">
+        <span class="font-medium text-gray-700">Recipient Name</span>
+        <span class="text-gray-700">Wallet</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- InstaPay Extra Section -->
+  <div *ngIf="selectedMethod === 'instapay'" class="flex flex-col gap-6">
+
+    <!-- Transfer Proof -->
+    <div class="flex flex-col gap-2">
+      <label class="text-gray-700 font-medium">Transfer Proof (Screenshot)</label>
+
+      <div
+        class="border-2 border-dashed border-gray-300 rounded-xl p-8 flex flex-col items-center justify-center text-center text-gray-600"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-10 h-10 mb-2 text-blue-500"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 4v16m8-8H4"
+          />
+        </svg>
+        <p>Drag your file(s) to start uploading</p>
+        <p class="text-sm text-gray-500 my-1">OR</p>
+        <button
+          class="px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-100 text-sm font-medium"
+        >
+          Browse files
+        </button>
+      </div>
+    </div>
+
+    <!-- InstaPay Account Name -->
+    <div class="flex flex-col gap-2">
+      <label class="text-gray-700 font-medium">
+        Your InstaPay account name (optional)
+      </label>
+      <div class="flex items-center border border-gray-300 rounded-xl overflow-hidden">
+        <input
+          type="text"
+          placeholder="InstaPay account name"
+          class="flex-1 p-3 outline-none"
+        />
+        <span
+          class="bg-gray-100 text-gray-600 px-4 py-3 border-l border-gray-300"
+          >@instapay.com</span
+        >
+      </div>
+    </div>
+  </div>
+
+  <!-- Buttons -->
+  <div class="flex justify-end gap-3 mt-4">
+    <button
+      class="px-5 py-2 rounded-xl border border-gray-300 text-gray-700 hover:bg-gray-100"
+    >
+      Cancel
+    </button>
+    <button class="px-5 py-2 rounded-xl bg-blue-600 text-white hover:bg-blue-700">
+      + Add Balance
+    </button>
+  </div>
+      </p-dialog>
       <button
         class="flex items-center justify-center gap-2 w-[256px] h-[40px] rounded-[6px] border border-[#F7F7F7] text-white font-medium"
       >
@@ -364,9 +537,9 @@
   <div class="w-[1074px] h-[436px] flex gap-[24px] opacity-100">
     <!-- recent-transactions.component.html -->
     <!-- component.html -->
-    <div class="card w-[1074px] h-[56px]" >
+    <div class="card w-[1074px] h-[56px]">
       <!-- Top bar (Frame 3495) -->
-      <div class="flex items-center justify-between ">
+      <div class="flex items-center justify-between">
         <div class="flex items-start gap-2">
           <div class="flex flex-col">
             <span

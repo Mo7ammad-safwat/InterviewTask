@@ -3,11 +3,12 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import {  MenuItem,  } from 'primeng/api';
 import { Breadcrumb, BreadcrumbModule } from 'primeng/breadcrumb';
+import { DialogModule } from 'primeng/dialog';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, BreadcrumbModule, Breadcrumb],
+  imports: [CommonModule,DialogModule, BreadcrumbModule, Breadcrumb],
 
   templateUrl: './home.html',
   styleUrl: './home.css',
@@ -89,9 +90,15 @@ export class Home implements OnInit {
       },
     ];
   }
-  onWithdraw() {
-    // Handle withdraw action
-    console.log('Withdraw button clicked');
+  visible: boolean = false;
+
+    showDialog() {
+        this.visible = true;
+    }
+      selectedMethod: 'instapay' | 'card' | null = null;
+
+  selectMethod(method: 'instapay' | 'card') {
+    this.selectedMethod = method;
   }
 }
 
